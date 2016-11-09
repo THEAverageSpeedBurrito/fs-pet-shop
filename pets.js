@@ -20,7 +20,11 @@ if(cmd === 'read'){
     var index = process.argv[3];
 
     if(pets[index] === undefined){
-      console.log(pets);
+      if(typeof(index) === 'string' && index === 'all'){
+        console.log(pets);
+      }else{
+        console.error(`Usage ${node} ${file} ${cmd} INDEX / ALL`);
+      }
     }else{
       console.log(pets[index]);
     }
@@ -47,7 +51,7 @@ if(cmd === 'read'){
       'age': petAge,
       'kind': petKind,
       'name': petName
-    }
+    };
 
     pets.push(newPet);
     var petsJSON = JSON.stringify(pets);
@@ -85,9 +89,8 @@ if(cmd === 'read'){
     };
 
     pets[index] = updatedPet;
-    var updatedJSON = JSON.stringify(pets);
 
-    fs.writeFile('./pets.json', updatedJSON, function(writeErr){
+    fs.writeFile('./pets.json', JSON.stringify(pets), function(writeErr){
       if(writeErr){
         throw writeErr;
       }
@@ -96,4 +99,6 @@ if(cmd === 'read'){
     });
 
   });
+}else {
+  console.error(`Usage: node pets.js [read | write | create | destroy]`);
 }
