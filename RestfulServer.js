@@ -47,6 +47,13 @@ app.put('/pets/:id', function(req, res) {
   res.send(newPet);
 });
 
+app.delete('/pets/:id', function(req, res) {
+  var index = parseInt(req.params.id);
+
+  pets.splice(index, 1);
+  res.send(pets);
+});
+
 app.listen(port, function() {
   console.log('Listening on port 8000');
 });
