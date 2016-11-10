@@ -20,6 +20,11 @@ app.get('/pets', function(req, res) {
 
 app.get('/pets/:id', function(req, res) {
   var index = parseInt(req.params.id);
+
+  if(index < 0 || index > pets.length){
+    res.sendStatus(404);
+  }
+
   res.send(pets[index]);
 });
 
@@ -37,6 +42,10 @@ app.post('/pets', function(req, res) {
 app.put('/pets/:id', function(req, res) {
   var index = parseInt(req.params.id);
 
+  if(index < 0 || index > pets.length){
+    res.sendStatus(404);
+  }
+
   var newPet = {
     name: req.body.name,
     age: req.body.age,
@@ -49,6 +58,10 @@ app.put('/pets/:id', function(req, res) {
 
 app.delete('/pets/:id', function(req, res) {
   var index = parseInt(req.params.id);
+
+  if(index < 0 || index > pets.length){
+    res.sendStatus(404);
+  }
 
   pets.splice(index, 1);
   res.send(pets);
