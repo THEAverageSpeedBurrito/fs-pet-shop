@@ -30,9 +30,9 @@ app.get('/pets/:id', function(req, res) {
 
 app.post('/pets', function(req, res) {
   var newPet = {
-    name: req.body.name,
-    age: req.body.age,
-    kind: req.body.kind,
+    name: req.body.name || 'Nameless Creature',
+    age: req.body.age || 'Immortal',
+    kind: req.body.kind || 'I have no kind :(',
   };
 
   pets.push(newPet);
@@ -47,9 +47,9 @@ app.put('/pets/:id', function(req, res) {
   }
 
   var newPet = {
-    name: req.body.name,
-    age: req.body.age,
-    kind: req.body.kind,
+    name: req.body.name || 'Lacks an identity',
+    age: req.body.age || 'Immortal',
+    kind: req.body.kind || 'Liger?',
   };
 
   pets[index] = newPet;
@@ -65,6 +65,23 @@ app.delete('/pets/:id', function(req, res) {
 
   pets.splice(index, 1);
   res.send(pets);
+});
+
+app.patch('/pets/:id', function(req, res) {
+  var index = parseInt(req.params.id);
+
+  if(index < 0 || index > pets.length){
+    res.sendStatus(404);
+  }
+
+  var newPet = {
+    name: req.body.name || pets[index].name,
+    age: req.body.age || pets[index].age,
+    kind: req.body.kind || pets[index].kind,
+  };
+
+  pets[index] = newPet;
+  res.send(pets[index]);
 });
 
 app.listen(port, function() {
