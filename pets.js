@@ -99,6 +99,25 @@ if(cmd === 'read'){
     });
 
   });
-}else {
-  console.error(`Usage: node pets.js [read | write | create | destroy]`);
+}else if (cmd === 'destroy'){
+  var index = process.argv[3];
+
+  fs.readFile('./pets.json', 'utf8', function(err, data) {
+    if(err) {
+      throw err;
+    }
+
+    var pets = JSON.parse(data);
+    pets.splice(index, 1);
+
+    fs.writeFile('./pets.json', JSON.stringify(pets), function(writeErr) {
+      if(writeErr){
+        throw err;
+      }
+
+      console.log(pets);
+    });
+  });
+} else {
+  console.error(`Usage: node pets.js [read | create | update | destroy]`);
 }
